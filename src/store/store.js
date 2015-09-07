@@ -1,30 +1,39 @@
 ﻿var Redux = require("redux");
+var Thunk = require("redux-thunk");
+var _ = require("lodash");
+require("whatwg-fetch");
 
 var initialState = {
-    c: 0
+    IsLoadingPosts: false,
+    Posts: [],
+    LoadMessage: ""
 };
 
 function reduce(prev, action) {
-    var next = { c: prev.c };
+    var next = _.assign({}, prev);
+
+    console.log("Reducing via ", action);
 
     switch (action.type) {
-        case "INCREMENT":
-            next.c = next.c + 1;
+        case "LOAD":
+            next.IsLoadingPosts = true;
             break;
-        case "DECREMENT":
-            next.c = next.c - 1;
+        case "LOADED":
+            next.IsLoadingPosts = false;
+            next.Posts = action.entries.data.children;
+            next.LoadMessage = "Success.";
             break;
-        default:
-            break;
+        case "LOAD_FAILED":
+            next.IsLoadingPosts = false;
+            next.Posts = [];
+            next.LoadMessage = "Failure!";
     }
 
     return next;
 }
 
-var store = Redux.createStore(reduce, initialState);
+var createThunkableStore = Redux.applyMiddleware(Thunk)(Redux.createStore)
 
-store.subscribe(function () {
-    console.log(store.getState());
-});
+var store = createThunkableStore(reduce, initialState);
 
 module.exports = store;
