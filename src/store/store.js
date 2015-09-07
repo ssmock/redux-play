@@ -20,7 +20,7 @@ function reduce(prev, action) {
             break;
         case "LOADED":
             next.IsLoadingPosts = false;
-            next.Posts = action.entries.data.children;
+            next.Posts = action.payload.data.children;
             next.LoadMessage = "Success.";
             break;
         case "LOAD_FAILED":

@@ -7,11 +7,11 @@ var Store = require("../store/store.js");
 var Main = React.createClass({
     mixins: [React.addons.LinkedStateMixin],
     getInitialState: function () {
-        return { SearchText: "programming" };
+        return { SearchText: "programmingasfasf" };
     },
     render: function () {
         console.log(this.props);
-
+        
         return (<div>
             <div>
                 <input name="name" type="text" valueLink={this.linkState("SearchText")}
@@ -21,7 +21,7 @@ var Main = React.createClass({
                 <em>Click to search for {this.state.SearchText}</em>
             </div>
             <div>
-                {this.props.IsLoadingPosts ? "YES" : "NO"}
+                {this.props.IsLoadingPosts ? "Loading..." : ""}
             </div>
             <div>
                 {this.GetPosts()}
@@ -36,23 +36,13 @@ var Main = React.createClass({
 
             return fetch("http://www.reddit.com/r/" + searchText + ".json")
                 .then(function (response) {
-                    if (response.status >= 200 && response.status < 300) {
-                        console.log("fetchworked");
-
-                        return response;
-                    } else {
-                        console.log("nope");
-
-                        //
-                        // TODO
-                        //
-                    }
-                })
-                .then(function (response) {
                     return response.json();
                 })
                 .then(function (json) {
-                    dispatch({ type: "LOADED", sub: searchText, entries: json });
+                    dispatch({ type: "LOADED", sub: searchText, payload: json });
+                })
+                .catch(function (error) {
+                    dispatch({ type: "LOAD_FAILED", sub: searchText });
                 });
         });
     },
@@ -65,8 +55,8 @@ var Main = React.createClass({
     }
 });
 
-function select(state) {
-    return state;
-}
+    function select(state) {
+        return state;
+    }
 
-module.exports = Connect(select)(Main);
+    module.exports = Connect(select)(Main);
