@@ -1,0 +1,23 @@
+{
+  "name": "ReduxAsyncDemo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "babel": "^5.8.23",
+    "babel-core": "^5.8.23",
+    "babel-runtime": "^5.8.20",
+    "gulp": "^3.9.0",
+    "gulp-react": "^3.0.1",
+    "gulp-util": "^3.0.6",
+    "lodash": "^3.10.1",
+    "react": "^0.13.3",
+    "react-redux": "^2.1.1",
+    "redux": "^2.0.0"
+  }
+}
